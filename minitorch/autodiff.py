@@ -94,9 +94,9 @@ def backpropagate(variable: Variable, deriv: Any) -> None:
     """
     # dict — уникальный id переменной, значение — производная
     derivatives = {variable.unique_id: deriv}
-    #проход в топологическом порядке (от результата к аргументам)
+    # проход в топологическом порядке (от результата к аргументам)
     for v in topological_sort(variable):
-        # получаем накопленную производную 
+        # получаем накопленную производную
         d = derivatives.get(v.unique_id, 0)
         if v.is_leaf():
             v.accumulate_derivative(d)
