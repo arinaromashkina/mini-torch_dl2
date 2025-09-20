@@ -37,7 +37,6 @@ class Module:
         for module in self.modules():
             module.train()
 
-
     def eval(self) -> None:
         """
         Set the mode of this module and all descendent modules to `eval`.
@@ -55,16 +54,13 @@ class Module:
             The name and `Parameter` of each ancestor parameter.
         """
         params: list[Tuple[str, Parameter]] = []
-        
         # Add parameters from current module
         for name, param in self._parameters.items():
             params.append((name, param))
-        
         # Recursively add parameters from child modules
         for module_name, module in self._modules.items():
             for param_name, param in module.named_parameters():
                 params.append((f"{module_name}.{param_name}", param))
-        
         return params
 
     def parameters(self) -> Sequence[Parameter]:

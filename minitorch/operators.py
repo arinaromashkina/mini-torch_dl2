@@ -144,7 +144,6 @@ def relu(x: float) -> float:
     return x if x > 0 else 0.0
 
 
-
 EPS = 1e-6
 
 
@@ -195,7 +194,6 @@ def inv_back(x: float, d: float) -> float:
         d multiplied by derivative of 1/x at x (-1/x²).
     """
     return d * (-1.0 / (x * x))
-
 
 
 def relu_back(x: float, d: float) -> float:
@@ -279,7 +277,6 @@ def addLists(ls1: Iterable[float], ls2: Iterable[float]) -> Iterable[float]:
         New list with element-wise sums.
     """
     return zipWith(add)(ls1, ls2)
-
 
 
 def reduce(
