@@ -92,13 +92,16 @@ def backpropagate(variable: Variable, deriv: Any) -> None:
 
     No return. Should write to its results to the derivative values of each leaf through `accumulate_derivative`.
     """
+    # dict — уникальный id переменной, значение — производная
     derivatives = {variable.unique_id: deriv}
-    # Gather variables in topological order
+    #проход в топологическом порядке (от результата к аргументам)
     for v in topological_sort(variable):
+        # получаем накопленную производную 
         d = derivatives.get(v.unique_id, 0)
         if v.is_leaf():
             v.accumulate_derivative(d)
         else:
+            # надо распространить цепное правило на родителей
             for parent, local_grad in v.chain_rule(d):
                 if parent.unique_id not in derivatives:
                     derivatives[parent.unique_id] = local_grad
