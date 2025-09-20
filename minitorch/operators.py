@@ -61,7 +61,7 @@ def neg(x: float) -> float:
         Negated value of x.
         f(x) = -x
     """
-    return -x
+    return float(-x)
 
 
 def lt(x: float, y: float) -> float:

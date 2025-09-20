@@ -92,31 +92,76 @@ class Scalar:
         return Mul.apply(b, Inv.apply(self))
 
     def __add__(self, b: ScalarLike) -> Scalar:
-        # TODO: Implement for Task 1.2.
-        raise NotImplementedError('Need to implement for Task 1.2')
+        """
+        Add two Scalars.
+
+        Args:
+            b: Value to add to this Scalar.
+
+        Returns:
+            Sum of self and b as a Scalar.
+        """
+        return Add.apply(self, b)
 
     def __bool__(self) -> bool:
         return bool(self.data)
 
     def __lt__(self, b: ScalarLike) -> Scalar:
-        # TODO: Implement for Task 1.2.
-        raise NotImplementedError('Need to implement for Task 1.2')
+        """
+        Compare if this Scalar is less than another.
+
+        Args:
+            b: Value to compare.
+
+        Returns:
+            Scalar indicating if self < b.
+        """
+        return LT.apply(self, b)
 
     def __gt__(self, b: ScalarLike) -> Scalar:
-        # TODO: Implement for Task 1.2.
-        raise NotImplementedError('Need to implement for Task 1.2')
+        """
+        Compare if this Scalar is greater than another.
+
+        Args:
+            b: Value to compare.
+
+        Returns:
+            Scalar indicating if self > b.
+        """
+        return LT.apply(b, self)  # b < self
 
     def __eq__(self, b: ScalarLike) -> Scalar:  # type: ignore[override]
-        # TODO: Implement for Task 1.2.
-        raise NotImplementedError('Need to implement for Task 1.2')
+        """
+        Compare if this Scalar is equal to another.
+
+        Args:
+            b: Value to compare.
+
+        Returns:
+            Scalar indicating if self == b.
+        """
+        return EQ.apply(self, b)
 
     def __sub__(self, b: ScalarLike) -> Scalar:
-        # TODO: Implement for Task 1.2.
-        raise NotImplementedError('Need to implement for Task 1.2')
+        """
+        Subtract b from this Scalar.
+
+        Args:
+            b: Value to subtract.
+
+        Returns:
+            Difference as a Scalar.
+        """
+        return Add.apply(self, Neg.apply(b))
 
     def __neg__(self) -> Scalar:
-        # TODO: Implement for Task 1.2.
-        raise NotImplementedError('Need to implement for Task 1.2')
+        """
+        Negate this Scalar.
+
+        Returns:
+            Negated Scalar.
+        """
+        return Neg.apply(self)
 
     def __radd__(self, b: ScalarLike) -> Scalar:
         return self + b
@@ -125,20 +170,40 @@ class Scalar:
         return self * b
 
     def log(self) -> Scalar:
-        # TODO: Implement for Task 1.2.
-        raise NotImplementedError('Need to implement for Task 1.2')
+        """
+        Compute natural logarithm of this Scalar.
+
+        Returns:
+            Scalar representing log(self).
+        """
+        return Log.apply(self)
 
     def exp(self) -> Scalar:
-        # TODO: Implement for Task 1.2.
-        raise NotImplementedError('Need to implement for Task 1.2')
+        """
+        Compute exponential of this Scalar.
+
+        Returns:
+            Scalar representing exp(self).
+        """
+        return Exp.apply(self)
 
     def sigmoid(self) -> Scalar:
-        # TODO: Implement for Task 1.2.
-        raise NotImplementedError('Need to implement for Task 1.2')
+        """
+        Compute sigmoid of this Scalar.
+
+        Returns:
+            Scalar representing sigmoid(self).
+        """
+        return Sigmoid.apply(self)
 
     def relu(self) -> Scalar:
-        # TODO: Implement for Task 1.2.
-        raise NotImplementedError('Need to implement for Task 1.2')
+        """
+        Compute ReLU of this Scalar.
+
+        Returns:
+            Scalar representing relu(self).
+        """
+        return ReLU.apply(self)
 
     # Variable elements for backprop
 
@@ -172,9 +237,13 @@ class Scalar:
         assert h is not None
         assert h.last_fn is not None
         assert h.ctx is not None
-
-        # TODO: Implement for Task 1.3.
-        raise NotImplementedError('Need to implement for Task 1.3')
+        # Вызываем backward последней операции,
+        # чтобы получить локальные градиенты по всем входам к этой операции.
+        # склеиваем каждый вход с соответствующим ему градиентом zip(h.inputs, grads))
+        # чтобы во время backprop было понятно какому родителю (аргументу)
+        #  соответствует какой локальный градиент.
+        grads = h.last_fn._backward(h.ctx, d_output)
+        return zip(h.inputs, grads)
 
     def backward(self, d_output: Optional[float] = None) -> None:
         """
